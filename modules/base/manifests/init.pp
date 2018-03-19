@@ -7,7 +7,7 @@ class base {
 
 	file { "creating a service_name file":
 		path => "/tmp/service_name.txt",
-		ensure => "present",
+		ensure => "absent",
 		content => template("base/test.erb")
 	}
 	
@@ -19,5 +19,11 @@ class base {
 	service { "starting httpd server":
 		name => $soft,
 		ensure => running
+	}
+	
+	cron { "puppet agent":
+		command => "puppet agent --test",
+		user => "root",
+		minute => "*/2"
 	}
 }
